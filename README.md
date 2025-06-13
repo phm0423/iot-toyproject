@@ -5,7 +5,7 @@
 
 ## 📝 개인 포트폴리오 사이트 게시판 - [소스](https://github.com/phm0423/iot-webapp-2025/tree/main/day10/Day10Study)
 
-<img src="../Image/개인포트폴리오 사이트게시판.png>
+<![개인포트폴리오 사이트게시판](https://github.com/user-attachments/assets/2111b6e0-fa95-460d-807c-d971c5506298)>
 
 #### 기술 스택
 - MySQL
