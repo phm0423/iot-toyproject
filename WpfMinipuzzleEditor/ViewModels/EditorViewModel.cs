@@ -1,12 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
+using WpfMinipuzzleEditor.Models;
 
 namespace WpfMinipuzzleEditor.ViewModels
 {
-    class EditorViewModel
+    public class EditorViewModel : ViewModelBase
     {
+        public ObservableCollection<Tile> TileCollection { get; set; }
+
+        private TileType _selectedTileType = TileType.Wall;
+        public TileType SelectedTileType
+        {
+            get => _selectedTileType;
+            set
+            {
+                _selectedTileType = value;
+                OnPropertyChanged(nameof(SelectedTileType));
+            }
+        }
+
+        public ICommand TileClickCommand(AttributeTargets;)
+
+        public EditorViewModel()
+        {
+        }
     }
 }

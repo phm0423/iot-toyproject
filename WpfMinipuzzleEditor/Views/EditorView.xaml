@@ -8,6 +8,10 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="EditorView">
 
+    <Page.DataContext>
+        <vm:EditorViewModel/>
+    </Page.DataContext>
+
     <Grid>
         
     </Grid>
