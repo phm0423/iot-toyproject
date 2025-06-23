@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Source\\iot-toyproject\\WpfMinipuzzleEditor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|c:\\source\\iot-toyproject\\wpfminipuzzleeditor\\viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|solutionrelative:viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|c:\\source\\iot-toyproject\\wpfminipuzzleeditor\\models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|solutionrelative:models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|c:\\source\\iot-toyproject\\wpfminipuzzleeditor\\views\\editorview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|solutionrelative:views\\editorview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|c:\\source\\iot-toyproject\\wpfminipuzzleeditor\\models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|solutionrelative:models\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|c:\\source\\iot-toyproject\\wpfminipuzzleeditor\\viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|solutionrelative:viewmodels\\editorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1F100E08-E96A-46C7-BB58-5B512FBDB6AD}|WpfMinipuzzleEditor.csproj|c:\\source\\iot-toyproject\\wpfminipuzzleeditor\\models\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,13 +54,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "EditorViewModel.cs",
               "DocumentMoniker": "C:\\Source\\iot-toyproject\\WpfMinipuzzleEditor\\ViewModels\\EditorViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\EditorViewModel.cs",
               "ToolTip": "C:\\Source\\iot-toyproject\\WpfMinipuzzleEditor\\ViewModels\\EditorViewModel.cs",
               "RelativeToolTip": "ViewModels\\EditorViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-19T08:04:25.304Z",
               "EditorCaption": ""
@@ -79,7 +79,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "GameState.cs",
               "DocumentMoniker": "C:\\Source\\iot-toyproject\\WpfMinipuzzleEditor\\Models\\GameState.cs",
               "RelativeDocumentMoniker": "Models\\GameState.cs",
