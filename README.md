@@ -47,6 +47,10 @@
 
 
 
+https://github.com/user-attachments/assets/f57caae8-ed28-4eee-9f86-76300b452851
+
+
+
 ---
 
 ## 🍜 3. Busan Restaurant App (부산 맛집 탐색 애플리케이션)
@@ -72,6 +76,14 @@
 | 맛집 목록 | 지도 연동 |
 |-----------|-----------|
 | ![mat1](./image/wpf004.png) | ![mat2](./image/wpf005.png) |
+
+
+### 🎥 영상
+
+
+
+https://github.com/user-attachments/assets/33fc13ca-55c8-4693-9797-6f001c90f129
+
 
 
 ---
