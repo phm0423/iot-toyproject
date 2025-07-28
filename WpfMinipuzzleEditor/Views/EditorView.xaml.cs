@@ -18,7 +18,7 @@ namespace WpfMinipuzzleEditor.Views
     /// <summary>
     /// EditorView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class EditorView : Page
+    public partial class EditorView : UserControl
     {
         public EditorView()
         {

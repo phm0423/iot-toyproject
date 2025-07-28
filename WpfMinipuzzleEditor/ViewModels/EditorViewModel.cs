@@ -1,7 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Input;
 using WpfMinipuzzleEditor.Models;
+using WpfMinipuzzleEditor.Helpers;
 
 namespace WpfMinipuzzleEditor.ViewModels
 {
@@ -16,7 +19,7 @@ namespace WpfMinipuzzleEditor.ViewModels
             set
             {
                 _selectedTileType = value;
-                OnPropertyChanged(nameof(SelectedTileType));
+                OnPropertyChanged();
             }
         }
 

@@ -21,7 +21,7 @@ namespace WpfMinipuzzleEditor.Models
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
-                    Tiles[x, y] = new Tile(x, y, TileType.Emtpy);
+                    Tiles[x, y] = new Tile(x, y, TileType.Empty);
             }
         }
     }

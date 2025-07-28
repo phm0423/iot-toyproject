@@ -8,7 +8,7 @@ namespace WpfMinipuzzleEditor.Models
 {
     public enum TileType
     {
-        Emtpy,
+        Empty,
         Wall,
         Player,
         Goal
