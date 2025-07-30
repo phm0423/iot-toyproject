@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using WpfMinipuzzleEditor.Models;
 using WpfMinipuzzleEditor.Helpers;
+using WpfMinipuzzleEditor.Views;
 
 namespace WpfMinipuzzleEditor.ViewModels
 {
@@ -47,7 +48,23 @@ namespace WpfMinipuzzleEditor.ViewModels
             ResetCommand = new RelayCommand(_ => ResetTiles());
             SaveCommand = new RelayCommand(_ => SaveToFile());
             LoadCommand = new RelayCommand(_ => LoadFromFile());
-            PlayCommand = new RelayCommand(_ => MessageBox.Show("게임 실행 예정")); // 다음 단계에서 구현
+            PlayCommand = new RelayCommand(_ => ExecutePlay()); // 다음 단계에서 구현
+        }
+
+        private void ExecutePlay()
+        {
+            var grid = new Tile[GridSize, GridSize];
+            foreach (var tile in TileCollection)
+            {
+                grid[tile.X, tile.Y] = new Tile(tile.X, tile.Y, tile.Type);
+            }
+
+            var viewModel = new GameViewModel(grid);
+            var gameWindow = new GameView
+            {
+                DataContext = viewModel
+            };
+            gameWindow.Show();
         }
 
         private void ResetTiles()

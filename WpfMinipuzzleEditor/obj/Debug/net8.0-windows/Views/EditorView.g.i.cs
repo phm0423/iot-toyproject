@@ -55,7 +55,7 @@ namespace WpfMinipuzzleEditor.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/WpfMinipuzzleEditor;V1.0.0.0;component/views/editorview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/WpfMinipuzzleEditor;component/views/editorview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\EditorView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

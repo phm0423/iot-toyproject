@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WpfMinipuzzleEditor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+742687db0a87824d6ffee4f6876f887e23658462")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f0d2ceb5b3d62324834a15e08da1ec7b969ce4bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("WpfMinipuzzleEditor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WpfMinipuzzleEditor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
