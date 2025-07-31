@@ -6,8 +6,8 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- 게임 보드 -->
@@ -18,7 +18,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type models:Tile}">
+                <DataTemplate>
                     <Border BorderThickness="0.5" BorderBrush="Gray">
                         <Rectangle Fill="{Binding Color}" />
                     </Border>

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace WpfMinipuzzleEditor.Models
@@ -30,8 +24,14 @@ namespace WpfMinipuzzleEditor.Models
             }
         }
 
-
-        public Brush Color => GetColorByType(Type);
+        public Brush Color => Type switch
+        {
+            TileType.Empty => Brushes.White,
+            TileType.Wall => Brushes.Black,
+            TileType.Player => Brushes.Blue,
+            TileType.Goal => Brushes.Green,
+            _ => Brushes.Transparent
+        };
 
         public Tile(int x, int y, TileType type)
         {
@@ -40,27 +40,10 @@ namespace WpfMinipuzzleEditor.Models
             Type = type;
         }
 
-        public void SetType(TileType newType)
-        {
-            Type = newType;
-        }
-        private Brush GetColorByType(TileType type)
-        {
-            return type switch
-            {
-                TileType.Empty => Brushes.White,
-                TileType.Wall => Brushes.Black,
-                TileType.Player => Brushes.Blue,
-                TileType.Goal => Brushes.Green,
-                _ => Brushes.Transparent
-            };
-        }
+        public void SetType(TileType newType) => Type = newType;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }
