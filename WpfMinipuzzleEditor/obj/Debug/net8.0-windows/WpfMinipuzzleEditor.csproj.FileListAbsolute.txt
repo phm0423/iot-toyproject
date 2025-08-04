@@ -1,7 +1,0 @@
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\Views\EditorView.g.cs
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\Views\GameView.g.cs
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\App.g.cs
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\WpfMinipuzzleEditor_MarkupCompile.cache
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\WpfMinipuzzleEditor_MarkupCompile.lref
