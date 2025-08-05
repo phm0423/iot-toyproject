@@ -1,0 +1,7 @@
+﻿<Window x:Class="WpfMinipuzzleEditor.Views.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfMinipuzzleEditor.Views"
+        Title="게임 실행" Height="500" Width="500">
+    <local:GameView />
+</Window>

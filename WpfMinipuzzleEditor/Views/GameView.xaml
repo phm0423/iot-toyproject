@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="WpfMinipuzzleEditor.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:WpfMinipuzzleEditor.Models"
+             xmlns:vm="clr-namespace:WpfMinipuzzleEditor.ViewModels">
+    
+        <ItemsControl ItemsSource="{Binding GameTiles}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="10" Columns="10"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type models:Tile}">
+                <Border BorderBrush="Gray" BorderThickness="1">
+                    <Rectangle Fill="{Binding Color}" />
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>
