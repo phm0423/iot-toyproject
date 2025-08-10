@@ -56,23 +56,24 @@ namespace WpfMinipuzzleEditor.ViewModels
             return null;
         }
 
-        public void MovePlayer(int dx, int dy)
+        public bool MovePlayer(int dx, int dy)
         {
-            if (_playerTile == null) return;
+            if (_playerTile == null) return false;
 
             int newX = _playerTile.X + dx;
             int newY = _playerTile.Y + dy;
 
             if (newX < 0 || newX >= Width || newY < 0 || newY >= Height)
-                return;
+                return false;
 
             var targetTile = Tiles[newX, newY];
             if (targetTile.Type == TileType.Wall)
-                return;
+                return false;
 
             if (targetTile.Type == TileType.Goal)
             {
                 MessageBox.Show("클리어!", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                return true; // 게임 클리어
             }
 
             _playerTile.Type = TileType.Empty;
@@ -80,6 +81,7 @@ namespace WpfMinipuzzleEditor.ViewModels
             _playerTile = targetTile;
 
             OnPropertyChanged(nameof(GameTiles));
+            return false; // 게임 진행 중
 
         }
 

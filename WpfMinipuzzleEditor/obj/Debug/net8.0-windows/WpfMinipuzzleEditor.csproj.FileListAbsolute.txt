@@ -1,7 +1,7 @@
 C:\Source\iot-toyproject\WpfMinipuzzleEditor\bin\Debug\net8.0-windows\WpfMinipuzzleEditor.exe
+C:\Source\iot-toyproject\WpfMinipuzzleEditor\bin\Debug\net8.0-windows\WpfMinipuzzleEditor.dll
 C:\Source\iot-toyproject\WpfMinipuzzleEditor\bin\Debug\net8.0-windows\WpfMinipuzzleEditor.deps.json
 C:\Source\iot-toyproject\WpfMinipuzzleEditor\bin\Debug\net8.0-windows\WpfMinipuzzleEditor.runtimeconfig.json
-C:\Source\iot-toyproject\WpfMinipuzzleEditor\bin\Debug\net8.0-windows\WpfMinipuzzleEditor.dll
 C:\Source\iot-toyproject\WpfMinipuzzleEditor\bin\Debug\net8.0-windows\WpfMinipuzzleEditor.pdb
 C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Source\iot-toyproject\WpfMinipuzzleEditor\obj\Debug\net8.0-windows\Views\EditorView.g.cs

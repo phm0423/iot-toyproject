@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
 
 namespace WpfMinipuzzleEditor.Models
@@ -22,6 +23,7 @@ namespace WpfMinipuzzleEditor.Models
             }
         }
 
+        [JsonIgnore]
         public Brush Color =>
             Type switch
             {
