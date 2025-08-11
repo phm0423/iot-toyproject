@@ -7,6 +7,7 @@ using WpfMinipuzzleEditor.Models;
 using WpfMinipuzzleEditor.Helpers;
 using WpfMinipuzzleEditor.Views;
 using Microsoft.Win32;
+using System.Linq;
 
 namespace WpfMinipuzzleEditor.ViewModels
 {
@@ -17,6 +18,9 @@ namespace WpfMinipuzzleEditor.ViewModels
         private TileType _selectedTileType = TileType.Wall;
         private readonly Stack<(int x, int y, TileType before, TileType after)> _undo = new();
         private readonly Stack<(int x, int y, TileType before, TileType after)> _redo = new();
+
+        private RelayCommand _undoCommand;
+        private RelayCommand _redoCommand;
 
         public TileType SelectedTileType
         {
@@ -33,8 +37,8 @@ namespace WpfMinipuzzleEditor.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand LoadCommand { get; }
         public ICommand PlayCommand { get; }
-        public ICommand UndoCommand { get; }
-        public ICommand RedoCommand { get; }
+        public ICommand UndoCommand => _undoCommand;
+        public ICommand RedoCommand => _redoCommand;
 
         private const int GridSize = 10;
 
@@ -54,8 +58,12 @@ namespace WpfMinipuzzleEditor.ViewModels
                     if (before == after) return;
 
                     tile.Type = after;
+
                     _undo.Push((tile.X, tile.Y, before, after));
                     _redo.Clear(); // 새 작업 후 리도 스택 초기화
+
+                    _undoCommand?.RaiseCanExecuteChanged();
+                    _redoCommand?.RaiseCanExecuteChanged();
                 }
             });
 
@@ -63,8 +71,8 @@ namespace WpfMinipuzzleEditor.ViewModels
             SaveCommand = new RelayCommand(_ => SaveToFile());
             LoadCommand = new RelayCommand(_ => LoadFromFile());
             PlayCommand = new RelayCommand(_ => ExecutePlay());
-            UndoCommand = new RelayCommand(_ => Undo(), _ => _undo.Count > 0);
-            UndoCommand = new RelayCommand(_ => Redo(), _ => _undo.Count > 0);
+            _undoCommand = new RelayCommand(_ => Undo(), _ => _undo.Count > 0);
+            _redoCommand = new RelayCommand(_ => Redo(), _ => _redo.Count > 0);
         }
 
         private void Redo()
@@ -76,6 +84,8 @@ namespace WpfMinipuzzleEditor.ViewModels
             tile.Type = after;
             _undo.Push((x, y, before, after));
             OnPropertyChanged(nameof(TileCollection));
+            _undoCommand?.RaiseCanExecuteChanged();
+            _redoCommand?.RaiseCanExecuteChanged();
         }
 
         private void Undo()
@@ -87,6 +97,9 @@ namespace WpfMinipuzzleEditor.ViewModels
             tile.Type = before;
             _redo.Push((x, y, before, after));
             OnPropertyChanged(nameof(TileCollection));
+
+            _undoCommand?.RaiseCanExecuteChanged();
+            _redoCommand?.RaiseCanExecuteChanged();
         }
 
         private void ExecutePlay()

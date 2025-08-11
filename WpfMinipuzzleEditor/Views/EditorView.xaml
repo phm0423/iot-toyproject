@@ -52,6 +52,8 @@
 
             <Separator Margin="10 15"/>
 
+            <Button Content="되돌리기(Undo)" Margin="0 5" Command="{Binding UndoCommand}"/>
+            <Button Content="다시하기(Redo)" Margin="0 5" Command="{Binding RedoCommand}"/>
             <Button Content="맵 초기화" Margin="0 5" Command="{Binding ResetCommand}"/>
             <Button Content="저장" Margin="0 5" Command="{Binding SaveCommand}"/>
             <Button Content="불러오기" Margin="0 5" Command="{Binding LoadCommand}"/>
