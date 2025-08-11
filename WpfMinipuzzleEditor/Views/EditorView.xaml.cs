@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfMinipuzzleEditor.Models;
 using WpfMinipuzzleEditor.ViewModels;
 
 namespace WpfMinipuzzleEditor.Views
@@ -25,6 +26,64 @@ namespace WpfMinipuzzleEditor.Views
         {
             InitializeComponent();
             DataContext = new EditorViewModel();
+        }
+
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is EditorViewModel vm && vm.IsDragging)
+            {
+                vm.EndDrag();
+                Mouse.Capture(null);
+            }
+        }
+
+        private void Tile_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is EditorViewModel vm && sender is Button btn && btn.DataContext is Tile tile)
+            {
+                if (vm.SelectedTileType == TileType.Player || vm.SelectedTileType == TileType.Goal)
+                {
+                    vm.Paint(tile);
+                    return;
+                }
+
+                vm.BeginDrag();
+                vm.Paint(tile);
+                Mouse.Capture(this);
+            }
+        }
+        private void Tile_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is EditorViewModel vm && vm.IsDragging)
+            {
+                vm.EndDrag();
+                Mouse.Capture(null);
+            }
+        }
+        
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (DataContext is not EditorViewModel vm || !vm.IsDragging) return;
+
+            Point p = e.GetPosition(this);
+            var hit = InputHitTest(p) as DependencyObject;
+            if (hit == null) return;
+
+            var btn = FindParent<Button>(hit);
+            if (btn?.DataContext is Tile tile)
+            {
+                vm.Paint(tile);
+            }
+        }
+
+        private static T? FindParent<T>(DependencyObject current) where T : DependencyObject
+        {
+            while (current != null)
+            {
+                if (current is T t) return t;
+                current = VisualTreeHelper.GetParent(current);
+            }
+            return null;
         }
     }
 }

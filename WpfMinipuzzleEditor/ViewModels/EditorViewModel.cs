@@ -22,6 +22,49 @@ namespace WpfMinipuzzleEditor.ViewModels
         private RelayCommand _undoCommand;
         private RelayCommand _redoCommand;
 
+        // 드래그
+        private bool _isDragging;
+        public bool IsDragging
+        {
+            get => _isDragging;
+            private set
+            {
+                if (_isDragging == value) return;
+                _isDragging = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void BeginDrag() => IsDragging = true;
+        public void EndDrag() => IsDragging = false;
+
+        public  void Paint(Tile tile)
+        {
+            if (tile == null) return;
+
+            var after = SelectedTileType;
+            if (tile.Type == after) return;
+
+            if (after == TileType.Player || after == TileType.Goal)
+            {
+                var prev = TileCollection.FirstOrDefault(t => t.Type == after);
+                if (prev != null)
+                {
+                    var beforePrev = prev.Type;     // Player or Goal
+                    prev.Type = TileType.Empty;
+                    _undo.Push((prev.X, prev.Y, beforePrev, TileType.Empty));
+                }
+            }
+
+            var before = tile.Type;
+            tile.Type = after;
+
+            _undo.Push((tile.X, tile.Y, before, after));
+            _redo.Clear(); // 새 작업 후 리도 스택 초기화
+            _undoCommand?.RaiseCanExecuteChanged();
+            _redoCommand?.RaiseCanExecuteChanged();
+        }
+
         public TileType SelectedTileType
         {
             get => _selectedTileType;
@@ -39,15 +82,24 @@ namespace WpfMinipuzzleEditor.ViewModels
         public ICommand PlayCommand { get; }
         public ICommand UndoCommand => _undoCommand;
         public ICommand RedoCommand => _redoCommand;
+        public ICommand NewMapCommand { get; }
 
-        private const int GridSize = 10;
+        //private const int GridSize = 10;  // 초기 맵 크기 고정
+        private int _gridSIze = 10;
+        public int GridSize
+        {
+            get => _gridSIze;
+            set
+            {                
+                if (_gridSIze == value) return;
+                _gridSIze = value;
+                OnPropertyChanged();
+            }
+        }
 
         public EditorViewModel()
         {
-            TileCollection = new ObservableCollection<Tile>();
-            for (int y = 0; y < GridSize; y++)
-                for (int x = 0; x < GridSize; x++)
-                    TileCollection.Add(new Tile(x, y, TileType.Empty));
+            BuildNewMap();  // 초기 맵 생성            
 
             TileClickCommand = new RelayCommand(param =>
             {
@@ -71,8 +123,40 @@ namespace WpfMinipuzzleEditor.ViewModels
             SaveCommand = new RelayCommand(_ => SaveToFile());
             LoadCommand = new RelayCommand(_ => LoadFromFile());
             PlayCommand = new RelayCommand(_ => ExecutePlay());
+
             _undoCommand = new RelayCommand(_ => Undo(), _ => _undo.Count > 0);
             _redoCommand = new RelayCommand(_ => Redo(), _ => _redo.Count > 0);
+
+            NewMapCommand = new RelayCommand(_ => CreateNewMap(GridSize));
+        }
+
+        private void CreateNewMap(int size)
+        {
+            size = Math.Clamp(size, 3, 50);
+            TileCollection.Clear();
+            for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
+                    TileCollection.Add(new Tile(x, y, TileType.Empty));
+
+            _undo.Clear();
+            _redo.Clear();
+            _undoCommand?.RaiseCanExecuteChanged();
+            _redoCommand?.RaiseCanExecuteChanged();
+
+            if (GridSize != size)
+            {
+                _gridSIze = size;
+                OnPropertyChanged(nameof(GridSize));
+            }
+        }
+
+        private void BuildNewMap()
+        {
+            TileCollection = new ObservableCollection<Tile>();
+            for (int y = 0; y < GridSize; y++)
+                for (int x = 0; x < GridSize; x++)
+                    TileCollection.Add(new Tile(x, y, TileType.Empty));
+            OnPropertyChanged(nameof(TileCollection));
         }
 
         private void Redo()
@@ -142,6 +226,8 @@ namespace WpfMinipuzzleEditor.ViewModels
 
                     if (dto.Height != dto.Types.Length || dto.Width != dto.Types[0].Length)
                         throw new InvalidDataException("맵 크기 정보가 올바르지 않습니다.");
+
+                    GridSize = dto.Width; // 저장된 맵크기 설정
 
                     TileCollection.Clear();
                     for (int y = 0; y < dto.Height; y++)
@@ -228,7 +314,7 @@ namespace WpfMinipuzzleEditor.ViewModels
             }
 
             if (playerCount != 1) return (false, $"플레이어 개수는 정확히 1개여야 합니다. (현재: {playerCount})");
-            if (goalCount < 1) return (false, "목표(Goal) 타일이 최소 1개 이상 필요합니다.");
+            if (goalCount != 1) return (false, "목표(Goal) 타일이 최소 1개 이상 필요합니다.");
 
             if (!checkPath) return (true, "");
 

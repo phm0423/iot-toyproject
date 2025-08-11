@@ -32,44 +32,63 @@ namespace WpfMinipuzzleEditor.Views
         {
             if (DataContext is ViewModels.GameViewModel vm)
             {
+                bool cleared = false;
+
                 switch (e.Key)
                 {
                     case Key.Up:
                     case Key.W:
-                        if(vm.MovePlayer(0, -1)) this.Close();
+                        cleared = vm.MovePlayer(0, -1);
                         break;
                     case Key.Down:
                     case Key.S:
-                        if(vm.MovePlayer(0, 1)) this.Close();
+                        cleared = vm.MovePlayer(0, 1);
                         break;
                     case Key.Left:
                     case Key.A:
-                        if(vm.MovePlayer(-1, 0)) this.Close();
+                        cleared = vm.MovePlayer(-1, 0);
                         break;
                     case Key.Right:
                     case Key.D:
-                        if(vm.MovePlayer(1, 0)) this.Close();
+                        cleared = vm.MovePlayer(1, 0);
                         break;
 
-                    // 재시작
                     case Key.R:
-                        if (_initialSnapshot != null)
-                        {
-                            var w = _initialSnapshot.GetLength(0);
-                            var h = _initialSnapshot.GetLength(1);
-                            var fresh = new WpfMinipuzzleEditor.Models.Tile[w, h];
-                            for (int x = 0; x < w; x++)
-                                for (int y = 0; y < h; y++)
-                                    fresh[x, y] = new WpfMinipuzzleEditor.Models.Tile(_initialSnapshot[x, y].X, _initialSnapshot[x, y].Y, _initialSnapshot[x, y].Type);
-                            DataContext = new ViewModels.GameViewModel(fresh);
-                            Keyboard.Focus(this);
-                        }
-                        break;
+                        RestartFromSnapshot();
+                        return; // 수동 재시작
 
                     case Key.Escape:
                         this.Close();
-                        break;
+                        return;
                 }
+
+                if (cleared)
+                {
+                    var result = MessageBox.Show("클리어! 다시 시작할까요?", "성공", MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        RestartFromSnapshot();
+                    }
+                    else 
+                    {
+                        this.Close();
+                    }
+                }
+            }
+        }
+        private void RestartFromSnapshot()
+        {
+            if (_initialSnapshot != null)
+            {
+                var w = _initialSnapshot.GetLength(0);
+                var h = _initialSnapshot.GetLength(1);
+                var fresh = new WpfMinipuzzleEditor.Models.Tile[w, h];
+                for (int x = 0; x < w; x++)
+                    for (int y = 0; y < h; y++)
+                        fresh[x, y] = new WpfMinipuzzleEditor.Models.Tile(_initialSnapshot[x, y].X, _initialSnapshot[x, y].Y, _initialSnapshot[x, y].Type);
+                DataContext = new ViewModels.GameViewModel(fresh);
+                Keyboard.Focus(this);
             }
         }
     }

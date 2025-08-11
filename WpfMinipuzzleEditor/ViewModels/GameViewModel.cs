@@ -67,15 +67,12 @@ namespace WpfMinipuzzleEditor.ViewModels
                 return false;
 
             var targetTile = Tiles[newX, newY];
-            if (targetTile.Type == TileType.Wall)
+            if (targetTile == null || targetTile.Type == TileType.Wall)
                 return false;
 
             if (targetTile.Type == TileType.Goal)
-            {
-                MessageBox.Show("클리어!", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
-                return true; // 게임 클리어
-            }
-
+                return true;    // goal 도달
+            
             _playerTile.Type = TileType.Empty;
             targetTile.Type = TileType.Player;
             _playerTile = targetTile;

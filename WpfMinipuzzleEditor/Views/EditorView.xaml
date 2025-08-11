@@ -4,6 +4,8 @@
         xmlns:vm="clr-namespace:WpfMinipuzzleEditor.ViewModels"
         xmlns:models="clr-namespace:WpfMinipuzzleEditor.Models"
         xmlns:conv="clr-namespace:WpfMinipuzzleEditor.Converters"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp"
+        MouseMove="Window_MouseMove"
         Title="Mini Puzzle Editor" Height="650" Width="900">
 
     <Window.Resources>
@@ -26,38 +28,52 @@
         <ItemsControl ItemsSource="{Binding TileCollection}" Grid.Column="0" Margin="5">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="10" Columns="10"/>
+                    <UniformGrid Rows="{Binding DataContext.GridSize, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                 Columns="{Binding DataContext.GridSize, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Background="{Binding Color}"
                             Command="{Binding DataContext.TileClickCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                            CommandParameter="{Binding}"/>
+                            CommandParameter="{Binding}"
+                            PreviewMouseLeftButtonDown="Tile_PreviewMouseLeftButtonDown"
+                            PreviewMouseLeftButtonUp="Tile_PreviewMouseLeftButtonUp"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
         <!-- 우측 설정 패널 -->
         <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Top">
-            <TextBlock Text="타일 선택" FontWeight="Bold" Margin="0 0 0 8"/>
+            <TextBlock Text="타일 선택" FontWeight="Bold" Margin="0 0 0 4"/>
             <RadioButton Content="빈 타일"
-                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Empty}}"/>
+                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Empty}}" Margin="0,4,0,0"/>
             <RadioButton Content="벽"
-                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Wall}}"/>
+                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Wall}}" Margin="0,4,0,0"/>
             <RadioButton Content="플레이어"
-                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Player}}"/>
+                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Player}}" Margin="0,4,0,0"/>
             <RadioButton Content="목표지점"
-                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Goal}}"/>
+                         IsChecked="{Binding SelectedTileType, Converter={StaticResource EnumMatchConverter}, ConverterParameter={x:Static models:TileType.Goal}}" Margin="0,4,0,0"/>
 
-            <Separator Margin="10 15"/>
+            <Separator Margin="0, 10, 0, 6"/>
+            
+            <!-- 맵크기 새맵 -->
+            <TextBlock Text="맵 크기" FontWeight="Bold" Margin="0 0 0 2"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Width="60"
+                         Text="{Binding GridSize, UpdateSourceTrigger=LostFocus}"/>
+                <Button Content="새 맵 만들기" Margin="8,0,0,0" Command="{Binding NewMapCommand}"/>
+            </StackPanel>
+            <TextBlock Text="(최소 3, 최대 50)" FontSize="10" Foreground="Gray"/>
 
-            <Button Content="되돌리기(Undo)" Margin="0 5" Command="{Binding UndoCommand}"/>
-            <Button Content="다시하기(Redo)" Margin="0 5" Command="{Binding RedoCommand}"/>
-            <Button Content="맵 초기화" Margin="0 5" Command="{Binding ResetCommand}"/>
-            <Button Content="저장" Margin="0 5" Command="{Binding SaveCommand}"/>
-            <Button Content="불러오기" Margin="0 5" Command="{Binding LoadCommand}"/>
-            <Button Content="게임 실행" Margin="0 5" Command="{Binding PlayCommand}"/>
+            <Separator Margin="0, 10, 0, 6"/>
+
+            <Button Content="되돌리기(Undo)" Margin="0,4,0,0" Command="{Binding UndoCommand}" />
+            <Button Content="다시하기(Redo)" Margin="0,4,0,0" Command="{Binding RedoCommand}"/>
+            <Button Content="맵 초기화" Margin="0,4,0,0" Command="{Binding ResetCommand}"/>
+            <Button Content="저장" Margin="0,4,0,0" Command="{Binding SaveCommand}"/>
+            <Button Content="불러오기" Margin="0,4,0,0" Command="{Binding LoadCommand}"/>
+            <Button Content="게임 실행" Margin="0,4,0,0" Command="{Binding PlayCommand}"/>
         </StackPanel>
     </Grid>
 </Window>
