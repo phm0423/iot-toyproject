@@ -62,8 +62,7 @@
               "RelativeToolTip": "ViewModels\\GameViewModel.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAmwEcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T13:00:12.78Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-10T13:00:12.78Z"
             },
             {
               "$type": "Document",
@@ -75,8 +74,7 @@
               "RelativeToolTip": "Views\\GameWindow.xaml.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAawEQAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T13:02:13.055Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-10T13:02:13.055Z"
             },
             {
               "$type": "Document",
@@ -86,7 +84,7 @@
               "RelativeDocumentMoniker": "ViewModels\\EditorViewModel.cs",
               "ToolTip": "C:\\Source\\iot-toyproject\\WpfMinipuzzleEditor\\ViewModels\\EditorViewModel.cs",
               "RelativeToolTip": "ViewModels\\EditorViewModel.cs",
-              "ViewState": "AgIAACgBAAAAAAAAAAAawEIBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAvwKkAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-05T08:27:16.476Z",
               "EditorCaption": ""
@@ -100,8 +98,7 @@
               "ToolTip": "C:\\Source\\iot-toyproject\\WpfMinipuzzleEditor\\Views\\EditorView.xaml",
               "RelativeToolTip": "Views\\EditorView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-08-11T15:17:08.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-11T15:17:08.978Z"
             },
             {
               "$type": "Document",
@@ -113,8 +110,7 @@
               "RelativeToolTip": "Views\\EditorView.xaml.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAAAkwCwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-11T16:38:51.109Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-11T16:38:51.109Z"
             }
           ]
         }

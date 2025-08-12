@@ -8,6 +8,7 @@ using WpfMinipuzzleEditor.Helpers;
 using WpfMinipuzzleEditor.Views;
 using Microsoft.Win32;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace WpfMinipuzzleEditor.ViewModels
 {
@@ -16,8 +17,6 @@ namespace WpfMinipuzzleEditor.ViewModels
         public ObservableCollection<Tile> TileCollection { get; set; }
 
         private TileType _selectedTileType = TileType.Wall;
-        private readonly Stack<(int x, int y, TileType before, TileType after)> _undo = new();
-        private readonly Stack<(int x, int y, TileType before, TileType after)> _redo = new();
 
         private RelayCommand _undoCommand;
         private RelayCommand _redoCommand;
@@ -35,8 +34,36 @@ namespace WpfMinipuzzleEditor.ViewModels
             }
         }
 
-        public void BeginDrag() => IsDragging = true;
-        public void EndDrag() => IsDragging = false;
+        // Record for undo/redo 
+        private record Change(int x, int y, TileType before, TileType after);
+
+        private class StrokeAction
+        {
+            public List<Change> Changes { get; } = new();
+        }
+
+        private readonly Stack<object> _undo = new();
+        private readonly Stack<object> _redo = new();
+
+        private StrokeAction? _currentStroke;
+
+        public void BeginDrag()
+        {
+            IsDragging = true;
+            _currentStroke = new StrokeAction();
+        }
+        public void EndDrag()
+        {
+            IsDragging = false;
+            if (_currentStroke != null && _currentStroke.Changes.Count > 0)
+            {
+                _undo.Push(_currentStroke);
+                _currentStroke = null;
+                _redo.Clear();
+                _undoCommand?.RaiseCanExecuteChanged();
+                _redoCommand?.RaiseCanExecuteChanged();
+            }
+        }
 
         public  void Paint(Tile tile)
         {
@@ -48,21 +75,45 @@ namespace WpfMinipuzzleEditor.ViewModels
             if (after == TileType.Player || after == TileType.Goal)
             {
                 var prev = TileCollection.FirstOrDefault(t => t.Type == after);
-                if (prev != null)
+                if (prev != null && prev != tile)
                 {
                     var beforePrev = prev.Type;     // Player or Goal
                     prev.Type = TileType.Empty;
-                    _undo.Push((prev.X, prev.Y, beforePrev, TileType.Empty));
+
+                    if (IsDragging && _currentStroke != null)
+                    {
+                        var exist = _currentStroke.Changes.FindIndex(c => c.x == prev.X && c.y == prev.Y);
+                        if (exist < 0)
+                            _currentStroke.Changes.Add(new Change(prev.X, prev.Y, beforePrev, TileType.Empty));
+                        else
+                            _currentStroke.Changes[exist] = _currentStroke.Changes[exist] with { after = TileType.Empty };
+                    }
+                    else
+                    {
+                        _undo.Push(new Change(prev.X, prev.Y, beforePrev, TileType.Empty));
+                        _redo.Clear();
+                    }
                 }
             }
 
             var before = tile.Type;
             tile.Type = after;
 
-            _undo.Push((tile.X, tile.Y, before, after));
-            _redo.Clear(); // 새 작업 후 리도 스택 초기화
-            _undoCommand?.RaiseCanExecuteChanged();
-            _redoCommand?.RaiseCanExecuteChanged();
+            if (IsDragging && _currentStroke != null)
+            {
+                var idx = _currentStroke.Changes.FindIndex(c => c.x == tile.X && c.y == tile.Y);
+                if (idx < 0)
+                    _currentStroke.Changes.Add(new Change(tile.X, tile.Y, before, after));
+                else
+                    _currentStroke.Changes[idx] = _currentStroke.Changes[idx] with { after = after };
+            }
+            else
+            {
+                _undo.Push(new Change(tile.X, tile.Y, before, after));
+                _redo.Clear(); // 새 작업 후 리도 스택 초기화
+                _undoCommand?.RaiseCanExecuteChanged();
+                _redoCommand?.RaiseCanExecuteChanged();
+            }
         }
 
         public TileType SelectedTileType
@@ -85,14 +136,14 @@ namespace WpfMinipuzzleEditor.ViewModels
         public ICommand NewMapCommand { get; }
 
         //private const int GridSize = 10;  // 초기 맵 크기 고정
-        private int _gridSIze = 10;
+        private int _gridSize = 10;
         public int GridSize
         {
-            get => _gridSIze;
+            get => _gridSize;
             set
             {                
-                if (_gridSIze == value) return;
-                _gridSIze = value;
+                if (_gridSize == value) return;
+                _gridSize = value;
                 OnPropertyChanged();
             }
         }
@@ -105,17 +156,18 @@ namespace WpfMinipuzzleEditor.ViewModels
             {
                 if (param is Tile tile)
                 {
-                    var before = tile.Type;
-                    var after = SelectedTileType;
-                    if (before == after) return;
+                    //var before = tile.Type;
+                    //var after = SelectedTileType;
+                    //if (before == after) return;
 
-                    tile.Type = after;
+                    //tile.Type = after;
 
-                    _undo.Push((tile.X, tile.Y, before, after));
-                    _redo.Clear(); // 새 작업 후 리도 스택 초기화
+                    //_undo.Push((tile.X, tile.Y, before, after));
+                    //_redo.Clear(); // 새 작업 후 리도 스택 초기화
 
-                    _undoCommand?.RaiseCanExecuteChanged();
-                    _redoCommand?.RaiseCanExecuteChanged();
+                    //_undoCommand?.RaiseCanExecuteChanged();
+                    //_redoCommand?.RaiseCanExecuteChanged();
+                    Paint(tile);
                 }
             });
 
@@ -145,7 +197,7 @@ namespace WpfMinipuzzleEditor.ViewModels
 
             if (GridSize != size)
             {
-                _gridSIze = size;
+                _gridSize = size;
                 OnPropertyChanged(nameof(GridSize));
             }
         }
@@ -162,25 +214,47 @@ namespace WpfMinipuzzleEditor.ViewModels
         private void Redo()
         {
             if (_redo.Count == 0) return;
-            var (x, y, before, after) = _redo.Pop();
+            var action = _redo.Pop();
 
-            var tile = TileCollection.First(t => t.X == x && t.Y == y);
-            tile.Type = after;
-            _undo.Push((x, y, before, after));
-            OnPropertyChanged(nameof(TileCollection));
+            switch (action)
+            {
+                case Change c:
+                    ApplyChange(c, reverse: false);
+                    _undo.Push(c);
+                    break;
+                case StrokeAction s:
+                    foreach (var c in s.Changes)
+                        ApplyChange(c, reverse: false);
+                    _undo.Push(s);
+                    break;
+            }
             _undoCommand?.RaiseCanExecuteChanged();
             _redoCommand?.RaiseCanExecuteChanged();
+        }
+
+        private void ApplyChange(Change c, bool reverse)
+        {
+            var tile = TileCollection.First(t=> t.X == c.x && t.Y == c.y);
+            tile.Type = reverse ? c.before : c.after;
         }
 
         private void Undo()
         {
             if (_undo.Count == 0) return;
-            var (x, y, before, after) = _undo.Pop();
+            var action = _undo.Pop();
 
-            var tile = TileCollection.First(t => t.X == x && t.Y == y);
-            tile.Type = before;
-            _redo.Push((x, y, before, after));
-            OnPropertyChanged(nameof(TileCollection));
+            switch (action)
+            {
+                case Change c:
+                    ApplyChange(c, reverse: true);
+                    _redo.Push(c);
+                    break;
+                case StrokeAction s:
+                    for (int i = s.Changes.Count - 1; i >= 0; i--)
+                        ApplyChange(s.Changes[i], reverse: true);
+                    _redo.Push(s);
+                    break;
+            }
 
             _undoCommand?.RaiseCanExecuteChanged();
             _redoCommand?.RaiseCanExecuteChanged();
@@ -314,7 +388,7 @@ namespace WpfMinipuzzleEditor.ViewModels
             }
 
             if (playerCount != 1) return (false, $"플레이어 개수는 정확히 1개여야 합니다. (현재: {playerCount})");
-            if (goalCount != 1) return (false, "목표(Goal) 타일이 최소 1개 이상 필요합니다.");
+            if (goalCount != 1) return (false, "목표(Goal) 타일이 정확히 1개여야 합니다.");
 
             if (!checkPath) return (true, "");
 
